@@ -4,7 +4,11 @@ const logger = require("morgan");
 
 const PORT = process.env.PORT || 3000;
 
-const db = require("./models");
+const db = require("/models");
+
+db.on("error", error => {
+  console.log("Database Error:", error);
+});
 
 const app = express();
 
@@ -15,7 +19,7 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/iWorkout", {
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
   useNewUrlParser: true,
   useFindAndModify: false
 });
