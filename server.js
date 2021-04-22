@@ -2,14 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const logger = require("morgan");
 
-
 const PORT = process.env.PORT || 3000;
 
-const db = require("./models/workout");
+// const db = require("./models/workout");
 
-db.on("error", error => {
-  console.log("Database Error:", error);
-});
+// db.on("error", error => {
+//   console.log("Database Error:", error);
+// });
 
 const app = express();
 
