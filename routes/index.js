@@ -30,9 +30,9 @@ router.get("/exercise", (req, res) => {
 
 //GET /api/workouts to get the last workout
 router.get("/api/workouts", (req, res) => {
-    Exercise.find({})
-    .then(dbExercise => {
-        res.json(dbExercise);
+    Workout.find({})
+    .then(dbWorkout => {
+        res.json(dbWorkout);
     })
     .catch(err => {
         res.status(400).json(err);
