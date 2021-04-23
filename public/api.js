@@ -1,13 +1,25 @@
 const API = {
   async getLastWorkout() {
     let res;
+
     try {
       res = await fetch("/api/workouts");
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
     const json = await res.json();
 
+      // console.log('json', json);
+      // console.log('json', json[0].exercises[0].duration);
+    //   var totalDuration = 0;
+    //   for (var i = 0; i < json[0].length; i++) {
+    //     totalDuration = totalDuration.push(json[i].exercises[i].duration);
+      
+    //     return totalDuration;  
+
+    //   }
+      
+    // console.log(totalDuration);
     return json[json.length - 1];
   },
   async addExercise(data) {
