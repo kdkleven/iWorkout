@@ -62,8 +62,7 @@ router.post("/api/workouts", (req, res) => {
 
 //GET /api/workouts/range to get workouts in range
 router.get("/api/workouts/range", (req, res) => {
-    db.find({})
-        .limit(7)
+    db.find({}).limit(7)
         .then(dbWorkout => {
             console.log("dbWorkout", dbWorkout)
             res.json(dbWorkout);

@@ -22,7 +22,8 @@ function generatePalette() {
 }
 
 function populateChart(data) {
-  let durations = data.map(({ totalDuration }) => totalDuration);
+  console.log("data", data);
+  let durations = calculateTotalDurations(data);
   let pounds = calculateTotalWeight(data);
   let workouts = workoutNames(data);
   const colors = generatePalette();
@@ -173,22 +174,37 @@ function populateChart(data) {
   });
 }
 
+function calculateTotalDurations(data) {
+  let totalDuration = [];
+
+  data.forEach((workout) => {
+    const workoutTotal = workout.exercises.reduce((total, { type, duration }) => {
+        return total + duration;
+    }, 0);
+
+    totalDuration.push(workoutTotal);
+  });
+
+  return totalDuration;
+}
+
 function calculateTotalWeight(data) {
-  let totals = [];
+  let totalWeight = [];
 
   data.forEach((workout) => {
     const workoutTotal = workout.exercises.reduce((total, { type, weight }) => {
-      if (type === 'resistance') {
-        return total + weight;
-      } else {
-        return total;
-      }
+      return total + weight; 
+      // if (type === 'resistance') {
+      //   return total + weight;
+      // } else {
+      //   return total;
+      // }
     }, 0);
 
-    totals.push(workoutTotal);
+    totalWeight.push(workoutTotal);
   });
 
-  return totals;
+  return totalWeight;
 }
 
 function workoutNames(data) {
