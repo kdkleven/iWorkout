@@ -26,7 +26,14 @@ router.get("/exercise", (req, res) => {
 
 //GET /api/workouts to get the last workout
 router.get("/api/workouts", (req, res) => {
-    db.find({})
+    db.aggregate([
+        {
+            $addFields: {
+                totalDuration: { $sum: "$exercises.duration" }
+            }
+        },
+    ])
+        // .sort({ "day": -1 }).limit(1)
         .then(dbWorkout => {
             res.json(dbWorkout);
         })
@@ -38,7 +45,16 @@ router.get("/api/workouts", (req, res) => {
 //   * Add exercises to the most recent workout plan.
 //PUT /api/workouts to add exercise
 router.put("/api/workouts/:id", (req, res) => {
-    db.findByIdAndUpdate(req.params.id, { $push: { exercises: req.body } })
+    db.findByIdAndUpdate(
+        req.params.id, 
+        { 
+            $push: 
+            { 
+                exercises: req.body 
+            } 
+        },
+        { new: true }
+        )
         .then(dbWorkout => {
             res.json(dbWorkout);
         })
@@ -62,14 +78,22 @@ router.post("/api/workouts", (req, res) => {
 
 //GET /api/workouts/range to get workouts in range
 router.get("/api/workouts/range", (req, res) => {
-    db.find({}).limit(7)
-        .then(dbWorkout => {
-            console.log("dbWorkout", dbWorkout)
-            res.json(dbWorkout);
-        })
-        .catch(err => {
-            res.status(400).json(err);
-        });
+    db.aggregate([
+        {
+            $addFields: {
+                totalDuration: { $sum: "$exercises.duration" }
+            }
+        },
+    ])
+    .sort( { "day": -1 })
+    .limit(7)
+    .then(dbWorkout => {
+        //console.log("dbWorkout", dbWorkout)
+        res.json(dbWorkout);
+    })
+    .catch(err => {
+        res.status(400).json(err);
+    });
 });
 
 module.exports = router;

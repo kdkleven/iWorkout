@@ -23,7 +23,7 @@ function generatePalette() {
 
 function populateChart(data) {
   // console.log("data", data);
-  let durations = calculateTotalDurations(data);
+  let durations = data.map(({totalDuration}) => totalDuration);
   let pounds = calculateTotalWeight(data);
   let workouts = workoutNames(data);
   const colors = generatePalette();
@@ -132,6 +132,7 @@ function populateChart(data) {
       },
     },
   });
+  //console.log("workouts", workouts);
 
   let pieChart = new Chart(pie, {
     type: 'pie',
@@ -152,6 +153,9 @@ function populateChart(data) {
       },
     },
   });
+
+console.log("workouts", workouts);
+console.log("pounds", pounds);
 
   let donutChart = new Chart(pie2, {
     type: 'doughnut',
@@ -174,47 +178,32 @@ function populateChart(data) {
   });
 }
 
-function calculateTotalDurations(data) {
-  let totalDuration = [];
-
-  data.forEach((workout) => {
-    const workoutTotal = workout.exercises.reduce((total, { type, duration }) => {
-      return total + duration;
-    }, 0);
-
-    totalDuration.push(workoutTotal);
-  });
-
-  return totalDuration;
-}
-
 function calculateTotalWeight(data) {
-  let totalWeight = [];
+  let totals = [];
 
   data.forEach((workout) => {
     const workoutTotal = workout.exercises.reduce((total, { type, weight }) => {
-      return total + weight;
+      if (type === 'resistance') {
+        return total + weight;
+      } else {
+        return total;
+      }
     }, 0);
 
-    totalWeight.push(workoutTotal);
+    totals.push(workoutTotal);
   });
-  // console.log("total weight", totalWeight);
 
-  return totalWeight;
+  return totals;
 }
 
 function workoutNames(data) {
   let workouts = [];
 
   data.forEach((workout) => {
-    console.log(workout);
-      
-      const resistanceOnly = workout.exercises.filter((exercise) => exercise.type === "resistance");
-        console.log("resistanceOnly", resistanceOnly);
-        resistanceOnly.forEach((exercise) => {
-          workouts.push(exercise.name);
-        })
-  })
+    workout.exercises.forEach((exercise) => {
+      workouts.push(exercise.name);
+    });
+  });
 
   // return de-duplicated array with JavaScript `Set` object
   return [...new Set(workouts)];
