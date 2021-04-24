@@ -26,7 +26,7 @@ router.get("/exercise", (req, res) => {
 
 //GET /api/workouts to get the last workout
 router.get("/api/workouts", (req, res) => {
-    db.findOne({})
+    db.find({})
         .then(dbWorkout => {
             res.json(dbWorkout);
         })
@@ -63,7 +63,9 @@ router.post("/api/workouts", (req, res) => {
 //GET /api/workouts/range to get workouts in range
 router.get("/api/workouts/range", (req, res) => {
     db.find({})
+        .limit(7)
         .then(dbWorkout => {
+            console.log("dbWorkout", dbWorkout)
             res.json(dbWorkout);
         })
         .catch(err => {
