@@ -22,7 +22,7 @@ function generatePalette() {
 }
 
 function populateChart(data) {
-  console.log("data", data);
+  // console.log("data", data);
   let durations = calculateTotalDurations(data);
   let pounds = calculateTotalWeight(data);
   let workouts = workoutNames(data);
@@ -179,7 +179,7 @@ function calculateTotalDurations(data) {
 
   data.forEach((workout) => {
     const workoutTotal = workout.exercises.reduce((total, { type, duration }) => {
-        return total + duration;
+      return total + duration;
     }, 0);
 
     totalDuration.push(workoutTotal);
@@ -193,16 +193,12 @@ function calculateTotalWeight(data) {
 
   data.forEach((workout) => {
     const workoutTotal = workout.exercises.reduce((total, { type, weight }) => {
-      return total + weight; 
-      // if (type === 'resistance') {
-      //   return total + weight;
-      // } else {
-      //   return total;
-      // }
+      return total + weight;
     }, 0);
 
     totalWeight.push(workoutTotal);
   });
+  // console.log("total weight", totalWeight);
 
   return totalWeight;
 }
@@ -211,10 +207,14 @@ function workoutNames(data) {
   let workouts = [];
 
   data.forEach((workout) => {
-    workout.exercises.forEach((exercise) => {
-      workouts.push(exercise.name);
-    });
-  });
+    console.log(workout);
+      
+      const resistanceOnly = workout.exercises.filter((exercise) => exercise.type === "resistance");
+        console.log("resistanceOnly", resistanceOnly);
+        resistanceOnly.forEach((exercise) => {
+          workouts.push(exercise.name);
+        })
+  })
 
   // return de-duplicated array with JavaScript `Set` object
   return [...new Set(workouts)];

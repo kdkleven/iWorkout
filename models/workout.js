@@ -23,22 +23,18 @@ const workoutSchema = new Schema({
       },
       weight: {
         type: Number,
-        default: 0,
         require: "Enter a weight"
       },
       reps: {
         type: Number,
-        default: 0,
         require: "Enter the number of reps"
       },
       sets: {
         type: Number,
-        default: 0,
         require: "Enter the number of sets"
       },
       distance: {
         type: Number,
-        default: 0,
         require: "Enter the distance"
       },
     }
