@@ -155,9 +155,6 @@ function populateChart(data) {
     },
   });
 
-console.log("workouts", workouts);
-console.log("pounds", pounds);
-
   let donutChart = new Chart(pie2, {
     type: 'doughnut',
     data: {
