@@ -88,6 +88,7 @@ function populateChart(data) {
     },
   });
 
+
   let barChart = new Chart(bar, {
     type: 'bar',
     data: {
